@@ -1,51 +1,38 @@
 "use client";
 
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { columns } from "@/components/Columns";
+import { DataTable } from "@/components/DataTable";
 import { useFetchUsers } from "@/hooks";
-import type { User } from "@/types";
-import Link from "next/link";
 
 export default function Users() {
-  const { data: users, isError, isPending } = useFetchUsers();
+  const { data: users, isError, isPending } = useFetchUsers()
 
-  console.log(users);
+  console.log(users)
+
+  if (isError) {
+    return <p>Error fetching users</p>
+  }
+
+  if (isPending) {
+    return <p>Loading...</p>
+  }
 
   return (
-    <main>
-      <h2 className="font-bold">Users</h2>
-      <p>Some subtitle text goes here</p>
-
-      <table className="table-auto w-full text-left text-sm mt-8">
-        <thead>
-          <tr className="bg-gray-100 *:p-2">
-            <th>ID</th>
-            <th>Username</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users &&
-            users.map((user: User) => (
-              <tr key={user.id} className="*:pt-2 *:px-2">
-                <td>{user.id}</td>
-                <td>{user.username}</td>
-                <td>{user.name}</td>
-                <td>
-                  <a
-                    href={`mailto:${user.email}`}
-                    className="underline text-indigo-400 hover:no-underline active:text-indigo-700"
-                  >
-                    {user.email}
-                  </a>
-                </td>
-                <td>
-                  <Link href={`/users/${user.id}`}>View</Link>
-                </td>
-              </tr>
-            ))}
-        </tbody>
-      </table>
-    </main>
+    <Card>
+      <CardHeader>
+        <CardTitle>User List</CardTitle>
+        <CardDescription>Find and manage your users below</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <DataTable columns={columns} data={users} />
+      </CardContent>
+    </Card>
   );
 }

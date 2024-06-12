@@ -3,8 +3,6 @@ import { Inter } from "next/font/google";
 import "@/styles/globals.css";
 import Providers from "@/components/Providers";
 import Header from "@/components/Header";
-import Sidebar from "@/components/Sidebar";
-import Dashboard from "@/components/Dashboard";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,14 +17,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${inter.className} flex flex-col min-h-dvh`}>
-        <Providers>
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${inter.className} p-8 flex flex-col gap-y-8 min-h-dvh`}>
+        <Providers
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
           <Header />
-          <main className="grow flex flex-row gap-6">
-            <Sidebar />
-            <Dashboard>{children}</Dashboard>
-          </main>
+          <main>{children}</main>
         </Providers>
       </body>
     </html>
