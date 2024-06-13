@@ -18,11 +18,11 @@ export const fetchUser = async (id: number) => {
   }
 };
 
-export const fetchPosts = async () => {
+export const fetchUserPosts = async (id: number) => {
   try {
-    const res = await fetch(`${process.env.URL}/posts/`);
+    const res = await fetch(`${process.env.URL}/users/${id}/posts`);
     return res.json();
   } catch (error) {
-    throw new Error("Failed to fetch posts");
+    throw new Error("Failed to fetch user");
   }
 };
